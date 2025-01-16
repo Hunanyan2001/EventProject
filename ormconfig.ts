@@ -1,4 +1,4 @@
-import entities from './src/users/entities';
+import entities from './src/entities/index';
 import { DataSource } from 'typeorm';
 import { config } from 'dotenv';
 config();
@@ -11,8 +11,8 @@ const AppDataSource = new DataSource({
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
   synchronize: true,
-  entities,
-  migrations: ['src/database/migrations/*-migration.ts'],
+  entities: entities,
+  migrations: ['src/database/migrations/**/*.ts'],
   logging: true,
 });
 

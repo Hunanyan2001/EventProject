@@ -11,8 +11,7 @@ import {
   HttpException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserDto, CreateUserDto } from 'src/dtos';
 
 @Controller({
   path: 'users',
@@ -29,7 +28,7 @@ export class UsersController {
   @Get()
   async findAll() {
     try {
-      await this.usersService.findAll();
+      return await this.usersService.findAll();
     } catch (error) {
       throw new HttpException(
         {
