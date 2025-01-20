@@ -11,7 +11,7 @@ import {
   HttpException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { UpdateUserDto, CreateUserDto } from 'src/dtos';
+import { UpdateUserDto, CreateUserDto } from '../../dtos';
 
 @Controller({
   path: 'users',

@@ -12,7 +12,7 @@ import {
   mapCreateUserDtoToEntity,
   mapUserToUserResponse,
   mapUsersToUsersResponse,
-} from 'src/dtos';
+} from '../../dtos';
 @Injectable()
 export class UsersService {
   constructor(

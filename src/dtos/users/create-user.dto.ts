@@ -33,4 +33,5 @@ export const mapCreateUserDtoToEntity = (
   age: createUserDto.age,
   createdAt: new Date(),
   updatedAt: new Date(),
+  chats: [],
 });

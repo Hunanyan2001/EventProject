@@ -4,7 +4,10 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   BaseEntity,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
+import { User } from './user';
 
 @Entity()
 export class Chat extends BaseEntity {
@@ -19,4 +22,8 @@ export class Chat extends BaseEntity {
 
   @CreateDateColumn()
   createdAt: Date;
+
+  @ManyToOne(() => User, (user) => user.chats)
+  @JoinColumn({ name: 'userId' })
+  user: User;
 }

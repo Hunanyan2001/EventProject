@@ -1,41 +1,41 @@
 import {
+  WebSocketGateway,
+  WebSocketServer,
+  OnGatewayInit,
   OnGatewayConnection,
   OnGatewayDisconnect,
-  WebSocketGateway,
   SubscribeMessage,
-  OnGatewayInit,
-  WebSocketServer,
+  MessageBody,
 } from '@nestjs/websockets';
-import { Socket, Server } from 'socket.io';
-import { Chat } from '../../entities/chat.entity';
-import { ChatService } from './chat.service';
-
-@WebSocketGateway(3001, { cors: { origin: '*' } })
+import { Server, Socket } from 'socket.io';
+class Model {
+  msg: string;
+}
+@WebSocketGateway()
 export class ChatGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
-  constructor(private chatService: ChatService) {}
-
   @WebSocketServer() server: Server;
 
-  @SubscribeMessage('sendMessage')
-  async handleSendMessage(client: Socket, payload: Chat): Promise<void> {
-    await this.chatService.createMessage(payload);
-    this.server.emit('recMessage', payload);
+  afterInit(server: Server) {
+    console.log('WebSocket server initialized');
   }
 
-  afterInit(server: Server) {
-    console.log(server);
-    //Выполняем действия
+  handleConnection(client: Socket) {
+    console.log(`Client connected: ${client.id}`);
+    client.emit('connectionStatus', 'Welcome to the WebSocket server!');
   }
 
   handleDisconnect(client: Socket) {
-    console.log(`Disconnected: ${client.id}`);
-    //Выполняем действия
+    console.log(`Client disconnected: ${client.id}`);
   }
 
-  handleConnection(client: Socket, ...args: any[]) {
-    console.log(`Connected ${client.id}`);
-    //Выполняем действия
+  @SubscribeMessage('sendMessage')
+  handleSendMessage(@MessageBody() body: Model) {
+    console.log(`Message received: ${body[0]}`);
+    this.server.emit('recMessage', {
+      msg: 'New Message',
+      content: body,
+    });
   }
 }

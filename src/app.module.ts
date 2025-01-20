@@ -11,10 +11,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import entities from './entities';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
-// import AppDataSource from '../ormconfig';
+import { ChatModule } from './modules/chat/chat.module';
 
 @Module({
   imports: [
+    ChatModule,
     UsersModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
